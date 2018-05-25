@@ -7,8 +7,12 @@ const Readline = SerialPort.parsers.Readline;
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win, winSize;
-const step = 40;
-const isParallaxed = false;
+let step = 0;
+let isParallaxed = false;
+
+let diff, prevValue, presValue, i;
+prevValue = 0;
+diff = 0;
 
 function createWindow() {
   // Create the browser window.
@@ -25,7 +29,7 @@ function createWindow() {
   );
 
   // Open the DevTools.
-  win.webContents.openDevTools();
+//   win.webContents.openDevTools();
 
   // Emitted when the window is closed.
   win.on("closed", () => {
@@ -37,6 +41,7 @@ function createWindow() {
 
   win.on("resize", () => {
     winSize = win.getSize();
+    i = Math.floor(winSize[0] / 2);
   });
 }
 
@@ -80,9 +85,19 @@ ipcMain.on("port_selected", (e, data) => {
     // Move
     parser.on("data", data => {
         // Do your processing here.
-        console.log(data);
+        // console.log(data);
         if(isParallaxed) {
             // DO stuff
+            let x;
+            step = Math.floor(winSize[0] / 300);
+            diff = (Math.floor(data * step) - i);
+            // if(diff > 0) {
+            //     x = i + step;
+            // } else {
+            //     x = i - step;
+            // }
+            x = i + (diff * 1.5);
+            win.webContents.sendInputEvent({ type: 'mouseMove', x: x, y: Math.floor(winSize[1] / 2) });
         }
     });
   } catch (err) {
@@ -101,5 +116,6 @@ ipcMain.on("app_start", e => {
 });
 
 ipcMain.on("parallax_initialized", () => {
+    i = Math.floor(winSize[0] / 2);    
     isParallaxed = true;
 });
