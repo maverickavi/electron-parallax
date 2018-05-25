@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
 	<meta charset="utf-8">
@@ -7,12 +8,39 @@
 	<title>404 Page</title>
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	<link rel="stylesheet" type="text/css" href="styles/styles.css"/>
+	<link rel="stylesheet" type="text/css" href="styles/bulma.min.css">
+	<link rel="stylesheet" type="text/css" href="styles/styles.css" />
 
 </head>
-<body>
 
-	<div id="container" class="container">
+<body>
+	<div class="container is-fluid">
+		<div class="columns serial-port">
+			<div class="column is-one-third is-offset-one-third">
+				<div>
+					<article id="error">
+						<div class="notification is-danger" id="error-body"></div>
+					</article>
+					<br>
+					<form id="port-select">
+						<div class="field">
+							<label class="label has-text-white">Select Port</label>
+							<div class="control">
+								<div class="select is-fullwidth" id="ports"></div>
+							</div>
+						</div>
+						<div class="field">
+							<div class="control">
+								<button class="button is-link is-fullwidth" type="submit">Submit</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="container" class="container-parallax is-hidden">
 		<ul id="scene" class="scene">
 			<li class="layer" data-depth="0.40">
 				<div class="image depth-1"></div>
@@ -31,4 +59,5 @@
 	<script src="parallax.js"></script>
 	<script src="renderer.js"></script>
 </body>
+
 </html>
