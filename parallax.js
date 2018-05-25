@@ -160,6 +160,7 @@
     while (element && !isNaN(element.offsetLeft) && !isNaN(element.offsetTop)) {
       x += element.offsetLeft - element.scrollLeft;
       y += element.offsetTop - element.scrollTop;
+      //y = screenY/2;
       element = element.offsetParent;
     }
     return {top:y, left:x};

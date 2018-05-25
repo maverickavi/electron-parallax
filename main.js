@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const url = require('url');
 var SerialPort = require('serialport');
@@ -10,13 +10,16 @@ var port = new SerialPort('/dev/cu.SLAB_USBtoUART', {
 const parser = new Readline(); 
 port.pipe(parser); 
 parser.on('data', console.log);
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win
+let win, winSize;
+const step = 40;
 
 function createWindow() {
     // Create the browser window.
-    win = new BrowserWindow({ width: 800, height: 600 })
+    win = new BrowserWindow({ width: 800, height: 600 });
+    winSize = win.getSize();
 
     // and load the index.html of the app.
     win.loadURL(url.format({
@@ -26,7 +29,7 @@ function createWindow() {
     }))
 
     // Open the DevTools.
-    win.webContents.openDevTools()
+    // win.webContents.openDevTools();
 
     // Emitted when the window is closed.
     win.on('closed', () => {
@@ -34,7 +37,11 @@ function createWindow() {
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
         win = null
-    })
+    });
+
+    win.on('resize', () => {
+        winSize = win.getSize();
+    });
 }
 
 // This method will be called when Electron has finished
@@ -57,7 +64,29 @@ app.on('activate', () => {
     if (win === null) {
         createWindow()
     }
-})
+});
+
+
+ipcMain.on('parallax_initialized', () => {
+    let i = 400;
+    let rev = false;
+    // Simulate mouse move
+    setInterval(function() {
+        // Get window size
+        console.log('Window Size -->', winSize);
+        console.log('Mouse X index -->', i);        
+        win.webContents.sendInputEvent({type: 'mouseMove', x: i, y: Math.floor(winSize[1]/2)});
+        if(i >= winSize[0]){
+            rev = true;
+        } else if(i <= 0) {
+            rev = false;
+        }
+        i = rev ? i - step : i + step;
+
+    }, 100);
+});
+
+//var prevData = parser;
 
 // Switches the port into "flowing mode"
 // port.on('data', function (data) {
