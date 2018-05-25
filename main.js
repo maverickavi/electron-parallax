@@ -8,6 +8,7 @@ const Readline = SerialPort.parsers.Readline;
 // be closed automatically when the JavaScript object is garbage collected.
 let win, winSize;
 const step = 40;
+const isParallaxed = false;
 
 function createWindow() {
   // Create the browser window.
@@ -80,6 +81,9 @@ ipcMain.on("port_selected", (e, data) => {
     parser.on("data", data => {
         // Do your processing here.
         console.log(data);
+        if(isParallaxed) {
+            // DO stuff
+        }
     });
   } catch (err) {
     e.sender.send("error", err.toString());
@@ -97,23 +101,5 @@ ipcMain.on("app_start", e => {
 });
 
 ipcMain.on("parallax_initialized", () => {
-  let i = 400;
-  let rev = false;
-  // Simulate mouse move
-  setInterval(function() {
-    // Get window size
-    console.log("Window Size -->", winSize);
-    console.log("Mouse X index -->", i);
-    win.webContents.sendInputEvent({
-      type: "mouseMove",
-      x: i,
-      y: Math.floor(winSize[1] / 2)
-    });
-    if (i >= winSize[0]) {
-      rev = true;
-    } else if (i <= 0) {
-      rev = false;
-    }
-    i = rev ? i - step : i + step;
-  }, 100);
+    isParallaxed = true;
 });
