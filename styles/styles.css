@@ -50,27 +50,27 @@ body {
 
 div.image.depth-1 {
   background-image: url("../images/1.png");
-  background-size: cover;
+  background-size: contain;
   background-position: center center;
 }
 
 div.image.depth-2 {
   background-image: url("../images/2.png");
-  background-size: cover;
+  background-size: contain;
   background-position: center center;
 }
 div.image.depth-3 {
   background-image: url("../images/3.png");
-  background-size: cover;
+  background-size: contain;
   background-position: center center;
-  top: -20%;
+  /* top: -20%; */
 }
 div.image.depth-4 {
   background-image: url("../images/4.png");
-  background-size: cover;
+  background-size: contain;
   background-position: center center;
-  top:auto;
-  bottom: -30%;
+  /* top:auto; */
+  /* bottom: 0; */
 }
 
 .serial-port {
