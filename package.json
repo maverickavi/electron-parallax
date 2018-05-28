@@ -8,7 +8,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "install": "electron-rebuild"
+    "install": "electron-rebuild",
+	"build:win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=x64 --prune=true --out=dist"
   },
   "repository": {
     "type": "git",

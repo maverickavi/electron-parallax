@@ -16,7 +16,7 @@ diff = 0;
 
 function createWindow() {
   // Create the browser window.
-  win = new BrowserWindow({ width: 800, height: 300 });
+  win = new BrowserWindow({ width: 800, height: 300, kiosk:true, autoHideMenuBar: true });
   winSize = win.getSize();
 
   // and load the index.html of the app.
